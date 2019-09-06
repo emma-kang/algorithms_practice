@@ -6,7 +6,7 @@
  * 10/16 test cases failed 
  * 3/10 : wrong answer
  * 7/10 : Your code did not execute within the time limits
- * need to consider effient way 
+ * need to consider efficient way 
  */
 
 import java.io.*;
