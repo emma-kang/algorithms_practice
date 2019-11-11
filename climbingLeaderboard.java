@@ -10,24 +10,33 @@ public class Solution {
 
     // Complete the climbingLeaderboard function below.
     static int[] climbingLeaderboard(int[] scores, int[] alice) {
-        int nPlayer = scores.length;
-        int rank = nPlayer;
         int[] result = new int[alice.length]; 
 
-        for(int i = nPlayer-1; i>=0; i--){
-            if(i-1 >= 0)
-                if(scores[i] == scores[i-1])
-                    rank--;
+        ArrayList<Integer> board = new ArrayList<Integer>();
+
+        for(int i=0; i<scores.length; i++){
+            if(i==0)
+                board.add(scores[i]);
+            else {
+                if(scores[i] != scores[i-1])
+                    board.add(scores[i]);
+            }
         }
 
-        for(int j=0; j<alice.length; j++){
-            if(alice[j] > scores[0]) 
-                result[j] = 1;
-            else if(alice[j] < scores[nPlayer-1])
-                result[j] = rank+1;
+        Collections.sort(board, Collections.reverseOrder());
             
-        }
-
+        board.forEach(score -> {
+            int rank = board.size();
+            for(int j=0; j<alice.length; j++){
+                if(score < alice[j])
+                    rank--;
+                else if(score > alice[j])
+                    rank++;
+                
+                result[j] = rank;
+            }
+            
+        });
 
         return result;
         
