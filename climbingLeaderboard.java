@@ -11,7 +11,7 @@ public class Solution {
     // Complete the climbingLeaderboard function below.
     static int[] climbingLeaderboard(int[] scores, int[] alice) {
         int[] result = new int[alice.length]; 
-
+        
         ArrayList<Integer> board = new ArrayList<Integer>();
 
         for(int i=0; i<scores.length; i++){
@@ -23,24 +23,30 @@ public class Solution {
             }
         }
 
-        Collections.sort(board, Collections.reverseOrder());
-            
-        board.forEach(score -> {
-            int rank = board.size();
-            for(int j=0; j<alice.length; j++){
-                if(score < alice[j])
-                    rank--;
-                else if(score > alice[j])
-                    rank++;
-                
-                result[j] = rank;
-            }
-            
-        });
+        int mid = Math.round(board.size()/2);
 
+        for(int j=0; j<alice.length; j++){
+            if(alice[j] >= board.get(0)) result[j] = 1;
+            else if(alice[j] < board.get(board.size()-1)) result[j] = board.size()+1;
+            else if(alice[j] > board.get(mid)){
+                int uRank = 1;
+                for(int x=1; x < mid; x++){
+                    if(alice[j] >= board.get(x)) ++uRank;
+                }
+                result[j] = uRank;
+            }
+            else {
+                int rank = mid+1;
+                for(int y=mid; y<alice.length; y++){
+                    if(alice[j] < board.get(y)) ++rank;
+                }
+
+                result[j] = rank;  
+            }
+        }
+        
         return result;
         
-
     }
 
     private static final Scanner scanner = new Scanner(System.in);
